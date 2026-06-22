@@ -50,6 +50,14 @@ export class ParticleEngine {
   private reduced = false;
   private startTime = 0;
 
+  // Cursor parallax — only ever applied while the field is ambient, so it can
+  // never disturb a formed emblem. Target is the pointer; smoothed toward it.
+  private ptrTX = 0;
+  private ptrTY = 0;
+  private psx = 0;
+  private psy = 0;
+  private hasPointer = false;
+
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
     const ctx = canvas.getContext("2d", { alpha: true });
@@ -62,6 +70,16 @@ export class ParticleEngine {
 
   setSampler(s: Sampler) {
     this.sampler = s;
+  }
+
+  setPointer(x: number, y: number) {
+    this.ptrTX = x;
+    this.ptrTY = y;
+    this.hasPointer = true;
+  }
+
+  clearPointer() {
+    this.hasPointer = false; // target drifts back to center
   }
 
   /* ---- sprites: ROTATION_FRAMES triangle bitmaps per palette color ---- */
@@ -142,6 +160,12 @@ export class ParticleEngine {
     this.canvas.style.width = w + "px";
     this.canvas.style.height = h + "px";
     this.ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
+    if (!this.hasPointer) {
+      this.ptrTX = w / 2;
+      this.ptrTY = h / 2;
+    }
+    this.psx = w / 2;
+    this.psy = h / 2;
     this.buildSprites();
     this.buildFormations();
     if (this.reduced) this.renderStatic();
@@ -193,7 +217,19 @@ export class ParticleEngine {
     const fromF = this.formations[m.from];
     const toF = this.formations[m.to];
     const denom = 1 - STAGGER;
-    const settled = m.t > 0.999;
+    // "settled" = either ambient (t≈0) or a fully held emblem (t≈1); both breathe.
+    const settled = m.t > 0.999 || m.t < 0.001;
+
+    // cursor parallax strength: full in ambient, gone the instant a morph begins
+    const cx = this.w / 2;
+    const cy = this.h / 2;
+    const ptx = this.hasPointer ? this.ptrTX : cx;
+    const pty = this.hasPointer ? this.ptrTY : cy;
+    this.psx += (ptx - this.psx) * 0.06;
+    this.psy += (pty - this.psy) * 0.06;
+    const ambientAmt = 1 - Math.min(1, m.t / 0.04);
+    const offX = (this.psx - cx) * 0.025 * ambientAmt;
+    const offY = (this.psy - cy) * 0.025 * ambientAmt;
 
     this.ctx.clearRect(0, 0, this.w, this.h);
 
@@ -210,6 +246,12 @@ export class ParticleEngine {
         const ph = this.seed[i];
         targetX += Math.sin(time * DRIFT_SPEED + ph) * DRIFT_AMP;
         targetY += Math.cos(time * DRIFT_SPEED * 1.1 + ph) * DRIFT_AMP;
+      }
+
+      if (ambientAmt > 0.001) {
+        const depth = 0.3 + (this.seed[i] / 6.2831853) * 1.0; // parallax by depth
+        targetX += offX * depth;
+        targetY += offY * depth;
       }
 
       this.px[i] += (targetX - this.px[i]) * LERP;

@@ -36,6 +36,11 @@ export default function ParticleField() {
     engine.resize();
     engine.start();
 
+    // intro: the field arrives rather than just being present
+    requestAnimationFrame(() => {
+      canvas.style.opacity = "1";
+    });
+
     let resizeRaf = 0;
     const onResize = () => {
       cancelAnimationFrame(resizeRaf);
@@ -43,8 +48,19 @@ export default function ParticleField() {
     };
     window.addEventListener("resize", onResize);
 
+    // cursor-reactive ambient field (engine gates this to the ambient state only)
+    const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    const onPointerMove = (e: PointerEvent) => engine.setPointer(e.clientX, e.clientY);
+    const onPointerLeave = () => engine.clearPointer();
+    if (!reduce) {
+      window.addEventListener("pointermove", onPointerMove, { passive: true });
+      document.addEventListener("pointerleave", onPointerLeave);
+    }
+
     return () => {
       window.removeEventListener("resize", onResize);
+      window.removeEventListener("pointermove", onPointerMove);
+      document.removeEventListener("pointerleave", onPointerLeave);
       cancelAnimationFrame(resizeRaf);
       engine.destroy();
     };
@@ -61,6 +77,8 @@ export default function ParticleField() {
         height: "100%",
         zIndex: 0,
         pointerEvents: "none",
+        opacity: 0,
+        transition: "opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1)",
       }}
     />
   );
