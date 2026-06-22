@@ -18,7 +18,6 @@ export default function Page() {
             key={project.id}
             project={project}
             from={i === 0 ? "ambient" : PROJECTS[i - 1].id}
-            isLast={i === PROJECTS.length - 1}
           />
         ))}
         <About />
