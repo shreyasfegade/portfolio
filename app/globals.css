@@ -63,32 +63,50 @@ body {
   max-width: 100vw;
 }
 
+/* Intentional void: a barely-there cool lift toward the top so the black reads
+   as deep space rather than #000 default. Sits behind everything (incl. canvas). */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 80% at 50% -10%, #0b0b10 0%, #050507 38%, #000000 72%);
+}
+
 ::selection {
   background: var(--color-plum);
   color: var(--color-bone);
 }
 
 /* Display type — the signature: thin weight at extreme size, tight tracking.
-   Space Grotesk floors at 300; we use it where the spec calls for 200. */
+   Space Grotesk floors at 300; we use it where the spec calls for 200. The
+   tracking tightens as size grows so headlines read as one carved mass. */
 .display {
   font-weight: 300;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.05em;
   line-height: 0.9;
+  font-feature-settings: "ss01" 1;
 }
 
+/* Eyebrows: the quiet system flag — wide tracking, small, never loud. */
 .eyebrow {
   font-weight: 600;
-  font-size: 12px;
-  letter-spacing: 0.18em;
+  font-size: 11px;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
 }
 
+/* Body: deliberately quiet and small so the jump from a display heading to copy
+   is felt immediately. Ash on void, generous leading, narrow measure. */
 .body-copy {
   font-weight: 400;
-  font-size: 17px;
-  line-height: 1.6;
-  letter-spacing: 0.01em;
+  font-size: 15px;
+  line-height: 1.72;
+  letter-spacing: 0.012em;
   color: var(--color-ash);
+  max-width: 60ch;
 }
 
 .hairline {

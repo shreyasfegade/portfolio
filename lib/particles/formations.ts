@@ -213,18 +213,18 @@ function cortex(N: number, ctx: LayoutCtx, rng: Rng): FormationData {
     ctx,
     0.84,
     [
-      // window frame
-      { gen: (n) => rectOutlineN(-W, -H, W * 2, H * 2, n, rng, 0.012), color: C.BONE, size: 0.42, alpha: 0.85, weight: 26 },
+      // window frame — quiet structure so the plum context-engine reads as focus
+      { gen: (n) => rectOutlineN(-W, -H, W * 2, H * 2, n, rng, 0.012), color: C.BONE, size: 0.4, alpha: 0.58, weight: 26 },
       // title bar + traffic lights
-      { gen: (n) => lineN(-W, -H + 0.26, W, -H + 0.26, n, rng, 0.01), color: C.BONE, size: 0.36, alpha: 0.7, weight: 8 },
+      { gen: (n) => lineN(-W, -H + 0.26, W, -H + 0.26, n, rng, 0.01), color: C.BONE, size: 0.34, alpha: 0.5, weight: 8 },
       { gen: (n) => [...discN(-W + 0.12, -H + 0.13, 0.035, n, rng)], color: C.PLUM, size: 0.5, alpha: 0.95, weight: 3 },
       // sidebar + split dividers
-      { gen: (n) => lineN(-0.5, -H + 0.26, -0.5, H, n, rng, 0.01), color: C.SMOKE, size: 0.34, alpha: 0.55, weight: 8 },
-      { gen: (n) => lineN(0.62, -H + 0.26, 0.62, H, n, rng, 0.01), color: C.SMOKE, size: 0.34, alpha: 0.55, weight: 7 },
+      { gen: (n) => lineN(-0.5, -H + 0.26, -0.5, H, n, rng, 0.01), color: C.SMOKE, size: 0.32, alpha: 0.4, weight: 8 },
+      { gen: (n) => lineN(0.62, -H + 0.26, 0.62, H, n, rng, 0.01), color: C.SMOKE, size: 0.32, alpha: 0.4, weight: 7 },
       // sidebar file rows
-      { gen: (n) => polylineN([[-0.9, -0.2], [-0.62, -0.2]], n, rng, 0.02), color: C.SMOKE, size: 0.3, alpha: 0.5, weight: 4 },
-      { gen: (n) => polylineN([[-0.9, 0.02], [-0.62, 0.02]], n, rng, 0.02), color: C.SMOKE, size: 0.3, alpha: 0.5, weight: 4 },
-      { gen: (n) => polylineN([[-0.9, 0.24], [-0.62, 0.24]], n, rng, 0.02), color: C.SMOKE, size: 0.3, alpha: 0.5, weight: 4 },
+      { gen: (n) => polylineN([[-0.9, -0.2], [-0.62, -0.2]], n, rng, 0.02), color: C.SMOKE, size: 0.3, alpha: 0.4, weight: 4 },
+      { gen: (n) => polylineN([[-0.9, 0.02], [-0.62, 0.02]], n, rng, 0.02), color: C.SMOKE, size: 0.3, alpha: 0.4, weight: 4 },
+      { gen: (n) => polylineN([[-0.9, 0.24], [-0.62, 0.24]], n, rng, 0.02), color: C.SMOKE, size: 0.3, alpha: 0.4, weight: 4 },
       // connectors between context nodes
       {
         gen: (n) => {
@@ -233,12 +233,12 @@ function cortex(N: number, ctx: LayoutCtx, rng: Rng): FormationData {
           for (const [a, b] of connectors) out = out.concat(lineN(a[0], a[1], b[0], b[1], per, rng, 0.006));
           return out;
         },
-        color: C.BONE,
+        color: C.PLUM,
         size: 0.24,
-        alpha: 0.4,
+        alpha: 0.32,
         weight: 14,
       },
-      // context nodes
+      // context nodes — the bright plum core
       {
         gen: (n) => {
           const per = Math.max(1, Math.floor(n / nodes.length));
@@ -247,8 +247,8 @@ function cortex(N: number, ctx: LayoutCtx, rng: Rng): FormationData {
           return out;
         },
         color: C.PLUM,
-        size: 0.6,
-        alpha: 0.95,
+        size: 0.62,
+        alpha: 0.98,
         weight: 18,
       },
     ],
@@ -306,12 +306,12 @@ function regime(N: number, ctx: LayoutCtx, rng: Rng): FormationData {
           }
           return out;
         },
-        color: C.BONE,
+        color: C.SMOKE,
         size: 0.24,
-        alpha: 0.42,
+        alpha: 0.3,
         weight: 22,
       },
-      // four state nodes
+      // four state nodes — the amber regimes are the focus
       {
         gen: (n) => {
           const per = Math.max(1, Math.floor(n / states.length));
@@ -320,8 +320,8 @@ function regime(N: number, ctx: LayoutCtx, rng: Rng): FormationData {
           return out;
         },
         color: C.AMBER,
-        size: 0.62,
-        alpha: 0.95,
+        size: 0.64,
+        alpha: 0.98,
         weight: 26,
       },
       ...candles,
@@ -354,7 +354,7 @@ function knowledge(N: number, ctx: LayoutCtx, rng: Rng): FormationData {
         },
         color: C.SMOKE,
         size: 0.22,
-        alpha: 0.4,
+        alpha: 0.3,
         weight: 16,
       },
       // domain → leaf edges (star within each arm)
@@ -399,8 +399,8 @@ function knowledge(N: number, ctx: LayoutCtx, rng: Rng): FormationData {
           return out;
         },
         color: C.BONE,
-        size: 0.32,
-        alpha: 0.6,
+        size: 0.3,
+        alpha: 0.46,
         weight: 22,
       },
     ],
@@ -517,12 +517,12 @@ function unbored(N: number, ctx: LayoutCtx, rng: Rng): FormationData {
     ctx,
     0.8,
     [
-      // dim candidate cloud
+      // dim candidate cloud — the noise the one pick rises out of
       {
         gen: (n) => discN(0, 0, 1.15, n, rng, 0.42),
         color: C.SMOKE,
-        size: 0.22,
-        alpha: 0.32,
+        size: 0.2,
+        alpha: 0.22,
         weight: 26,
       },
       // convergence lines pointing inward
@@ -538,9 +538,9 @@ function unbored(N: number, ctx: LayoutCtx, rng: Rng): FormationData {
           }
           return out;
         },
-        color: C.BONE,
+        color: C.SMOKE,
         size: 0.22,
-        alpha: 0.4,
+        alpha: 0.32,
         weight: 14,
       },
       // confidence ring around the pick
