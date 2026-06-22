@@ -1,15 +1,23 @@
 "use client";
 
+import { useRef } from "react";
 import Reveal from "./Reveal";
 import { IDENTITY } from "@/lib/projects";
+import { useParallaxVars } from "@/lib/useParallax";
 
 export default function Contact() {
+  const sectionRef = useRef<HTMLElement>(null);
+  useParallaxVars(sectionRef);
   return (
     <section
+      ref={sectionRef}
       id="contact"
       style={{ position: "relative", zIndex: 2, minHeight: "92vh", display: "flex", alignItems: "center" }}
     >
-      <div className="mx-auto w-full" style={{ maxWidth: 1200, padding: "120px 24px 64px" }}>
+      <div
+        className="mx-auto w-full contact-inner"
+        style={{ maxWidth: 1200, padding: "120px 24px 64px" }}
+      >
         <Reveal>
           <p className="eyebrow text-bone" style={{ marginBottom: 22 }}>
             {IDENTITY.status}
@@ -53,6 +61,10 @@ export default function Contact() {
       </div>
 
       <style jsx>{`
+        .contact-inner {
+          transform: translate3d(calc(var(--mx, 0) * -8px), calc(var(--my, 0) * -6px), 0);
+          transition: transform 0.7s var(--ease-out);
+        }
         .foot-link:hover {
           color: var(--color-bone) !important;
         }

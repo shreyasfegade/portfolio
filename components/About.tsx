@@ -1,7 +1,9 @@
 "use client";
 
+import { useRef } from "react";
 import Reveal from "./Reveal";
 import { IDENTITY } from "@/lib/projects";
+import { useParallaxVars } from "@/lib/useParallax";
 
 const PRINCIPLES = [
   {
@@ -21,10 +23,12 @@ const PRINCIPLES = [
 // Pinned closing statement. As it pins, the particles disperse from the final
 // emblem back to the ambient field (data-morph unbored → ambient).
 export default function About() {
+  const sectionRef = useRef<HTMLElement>(null);
+  useParallaxVars(sectionRef);
   return (
-    <section id="about" data-morph-from="unbored" data-morph-to="ambient" className="about-outer">
+    <section ref={sectionRef} id="about" data-morph-from="unbored" data-morph-to="ambient" className="about-outer">
       <div className="about-pin">
-        <div className="mx-auto w-full" style={{ maxWidth: 1200, padding: "0 24px" }}>
+        <div className="mx-auto w-full about-inner" style={{ maxWidth: 1200, padding: "0 24px" }}>
           <div style={{ maxWidth: 760 }}>
             <Reveal>
               <p className="eyebrow text-bone" style={{ marginBottom: 24 }}>
@@ -71,6 +75,10 @@ export default function About() {
           height: 100vh;
           display: flex;
           align-items: center;
+        }
+        .about-inner {
+          transform: translate3d(calc(var(--mx, 0) * -8px), calc(var(--my, 0) * -6px), 0);
+          transition: transform 0.7s var(--ease-out);
         }
         .principles {
           display: grid;

@@ -1,10 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { IDENTITY } from "@/lib/projects";
+import { useParallaxVars } from "@/lib/useParallax";
 
 export default function Hero() {
   const [loaded, setLoaded] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  useParallaxVars(sectionRef);
 
   useEffect(() => {
     // a beat after mount so the field is present first, then the copy arrives
@@ -13,7 +16,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section id="top" className={`hero ${loaded ? "loaded" : ""}`}>
+    <section ref={sectionRef} id="top" className={`hero ${loaded ? "loaded" : ""}`}>
       <div className="mx-auto w-full" style={{ maxWidth: 1200, padding: "0 24px" }}>
         <div className="hero-inner">
           <p className="eyebrow text-bone hero-line" style={{ "--i": 0 } as React.CSSProperties}>
@@ -66,19 +69,23 @@ export default function Hero() {
           display: flex;
           align-items: center;
         }
+        .hero-inner {
+          transform: translate3d(calc(var(--mx, 0) * -9px), calc(var(--my, 0) * -6px), 0);
+          transition: transform 0.7s var(--ease-out);
+        }
         .hero-name {
-          font-size: clamp(64px, 12vw, 168px);
-          line-height: 0.84;
-          letter-spacing: -0.05em;
-          margin: 22px 0 0;
+          font-size: clamp(66px, 12.4vw, 176px);
+          line-height: 0.82;
+          letter-spacing: -0.058em;
+          margin: 24px 0 0;
         }
         .hero-thesis {
           font-size: clamp(22px, 3vw, 38px);
           font-weight: 300;
-          line-height: 1.1;
-          letter-spacing: -0.02em;
+          line-height: 1.12;
+          letter-spacing: -0.025em;
           color: var(--color-smoke);
-          margin: 30px 0 0;
+          margin: 32px 0 0;
         }
         .hero-cta {
           display: flex;
