@@ -231,6 +231,12 @@ export class ParticleEngine {
     const offX = (this.psx - cx) * 0.025 * ambientAmt;
     const offY = (this.psy - cy) * 0.025 * ambientAmt;
 
+    // local magnetic field: particles part around the cursor in EVERY section.
+    // Applied to the target so the per-particle lerp springs them back — weight.
+    const magnet = this.hasPointer;
+    const R = 168;
+    const R2 = R * R;
+
     this.ctx.clearRect(0, 0, this.w, this.h);
 
     for (let i = 0; i < this.n; i++) {
@@ -252,6 +258,20 @@ export class ParticleEngine {
         const depth = 0.3 + (this.seed[i] / 6.2831853) * 1.0; // parallax by depth
         targetX += offX * depth;
         targetY += offY * depth;
+      }
+
+      if (magnet) {
+        const ddx = this.px[i] - this.psx;
+        const ddy = this.py[i] - this.psy;
+        const d2 = ddx * ddx + ddy * ddy;
+        if (d2 < R2 && d2 > 0.5) {
+          const d = Math.sqrt(d2);
+          const fall = 1 - d / R;
+          // eased falloff (fall^2) and a hair more push on the held emblems' bright cores
+          const push = fall * fall * 30;
+          targetX += (ddx / d) * push;
+          targetY += (ddy / d) * push;
+        }
       }
 
       this.px[i] += (targetX - this.px[i]) * LERP;

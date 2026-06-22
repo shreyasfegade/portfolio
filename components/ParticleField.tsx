@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { ParticleEngine } from "@/lib/particles/engine";
 import { createScrollSampler, MorphSection } from "@/lib/particles/scroll";
 import type { FormationKey } from "@/lib/particles/formations";
+import { pointer, subscribePointer } from "@/lib/pointer";
 
 // The fixed full-viewport canvas that renders the entire particle system.
 // It discovers the morph sections from the DOM ([data-morph-to]) so the page
@@ -48,19 +49,21 @@ export default function ParticleField() {
     };
     window.addEventListener("resize", onResize);
 
-    // cursor-reactive ambient field (engine gates this to the ambient state only)
+    // cursor-reactive field — fed from the single shared pointer signal.
+    // Engine applies ambient parallax + a local magnetic field in every section.
     const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-    const onPointerMove = (e: PointerEvent) => engine.setPointer(e.clientX, e.clientY);
-    const onPointerLeave = () => engine.clearPointer();
+    let unsubPointer = () => {};
     if (!reduce) {
-      window.addEventListener("pointermove", onPointerMove, { passive: true });
-      document.addEventListener("pointerleave", onPointerLeave);
+      unsubPointer = subscribePointer(() => {
+        const p = pointer();
+        if (p.active) engine.setPointer(p.cx, p.cy);
+        else engine.clearPointer();
+      });
     }
 
     return () => {
       window.removeEventListener("resize", onResize);
-      window.removeEventListener("pointermove", onPointerMove);
-      document.removeEventListener("pointerleave", onPointerLeave);
+      unsubPointer();
       cancelAnimationFrame(resizeRaf);
       engine.destroy();
     };
