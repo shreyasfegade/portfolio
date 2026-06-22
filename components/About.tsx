@@ -76,12 +76,21 @@ export default function About() {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
           gap: 24px;
+          perspective: 1100px;
         }
         .principle {
           padding: 22px 22px 24px;
           border-radius: 24px;
           border: 1px solid color-mix(in srgb, #ffffff 12%, transparent);
           background: color-mix(in srgb, #000000 40%, transparent);
+          transition: border-color 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+            transform 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+            background 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .principle:hover {
+          border-color: color-mix(in srgb, #ffffff 32%, transparent);
+          background: color-mix(in srgb, #000000 20%, transparent);
+          transform: translateY(-4px) rotateX(3deg);
         }
         @media (max-width: 820px) {
           .about-outer {

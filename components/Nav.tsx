@@ -22,7 +22,8 @@ export default function Nav() {
           ? "1px solid color-mix(in srgb, #ffffff 10%, transparent)"
           : "1px solid transparent",
         background: scrolled ? "color-mix(in srgb, #000000 55%, transparent)" : "transparent",
-        transition: "background 0.4s ease, border-color 0.4s ease, backdrop-filter 0.4s ease",
+        transition:
+          "background 0.5s cubic-bezier(0.16,1,0.3,1), border-color 0.5s cubic-bezier(0.16,1,0.3,1), backdrop-filter 0.5s cubic-bezier(0.16,1,0.3,1)",
       }}
     >
       <div className="mx-auto flex items-center justify-between" style={{ maxWidth: 1200, padding: "16px 24px" }}>
@@ -61,7 +62,7 @@ export default function Nav() {
           </div>
           <a
             href={`mailto:${IDENTITY.email}`}
-            className="no-underline"
+            className="no-underline nav-cta"
             style={{
               background: "var(--color-plum)",
               color: "var(--color-bone)",
@@ -79,8 +80,18 @@ export default function Nav() {
       </div>
 
       <style jsx>{`
+        .navlink {
+          transition: color 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+        }
         .navlink:hover {
           color: var(--color-bone) !important;
+        }
+        .nav-cta {
+          transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), background 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .nav-cta:hover {
+          transform: translateY(-1px);
+          background: color-mix(in srgb, var(--color-plum) 86%, #ffffff) !important;
         }
       `}</style>
     </nav>

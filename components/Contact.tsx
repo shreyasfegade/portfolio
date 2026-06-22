@@ -25,32 +25,13 @@ export default function Contact() {
 
         <Reveal delay={0.16}>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 14, marginBottom: 56 }}>
-            <a
-              href={`mailto:${IDENTITY.email}`}
-              className="no-underline"
-              style={{
-                background: "var(--color-plum)",
-                color: "var(--color-bone)",
-                fontWeight: 600,
-                fontSize: 13,
-                letterSpacing: "0.05em",
-                textTransform: "uppercase",
-                padding: "15px 26px",
-                borderRadius: 24,
-              }}
-            >
+            <a href={`mailto:${IDENTITY.email}`} className="btn-primary no-underline" style={{ fontSize: 13, padding: "15px 26px" }}>
               {IDENTITY.email}
             </a>
-            <a
-              href={IDENTITY.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="no-underline c-ghost"
-              style={ghost}
-            >
+            <a href={IDENTITY.github} target="_blank" rel="noopener noreferrer" className="btn-ghost no-underline" style={{ fontSize: 13, padding: "14px 26px" }}>
               GitHub ↗
             </a>
-            <a href={IDENTITY.resume} className="no-underline c-ghost" style={ghost}>
+            <a href={IDENTITY.resume} className="btn-ghost no-underline" style={{ fontSize: 13, padding: "14px 26px" }}>
               Résumé ↓
             </a>
           </div>
@@ -72,9 +53,6 @@ export default function Contact() {
       </div>
 
       <style jsx>{`
-        .c-ghost:hover {
-          border-color: var(--color-bone) !important;
-        }
         .foot-link:hover {
           color: var(--color-bone) !important;
         }
@@ -82,14 +60,3 @@ export default function Contact() {
     </section>
   );
 }
-
-const ghost: React.CSSProperties = {
-  color: "var(--color-bone)",
-  fontWeight: 600,
-  fontSize: 13,
-  letterSpacing: "0.05em",
-  textTransform: "uppercase",
-  padding: "14px 26px",
-  borderRadius: 24,
-  border: "1px solid color-mix(in srgb, #ffffff 22%, transparent)",
-};
