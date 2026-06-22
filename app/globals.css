@@ -1,0 +1,110 @@
+@import "tailwindcss";
+
+/* ===========================================================================
+   Design tokens — ported from Refero Inspo "Dala" system (theme.css / tokens.json)
+   The void is pure black. One chromatic authority: Plum Voltage.
+   No shadows, no gradients, no noise. Depth comes from contrast and the void.
+   =========================================================================== */
+@theme {
+  /* Colors */
+  --color-void: #000000;
+  --color-bone: #ffffff;
+  --color-ash: #bdbdbd;
+  --color-smoke: #9a9a9a;
+  --color-plum: #8052ff;
+  --color-amber: #ffb829;
+  --color-lichen: #15846e;
+
+  /* Type — Space Grotesk substitutes proprietary "Acronym" (etched-thin feel) */
+  --font-grotesk: var(--font-space-grotesk), ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  /* Spacing scale (6px base unit) */
+  --spacing-6: 6px;
+  --spacing-12: 12px;
+  --spacing-18: 18px;
+  --spacing-24: 24px;
+  --spacing-30: 30px;
+  --spacing-36: 36px;
+  --spacing-60: 60px;
+  --spacing-96: 96px;
+  --spacing-120: 120px;
+
+  /* Radius — pill geometry, never below 24px on interactive surfaces */
+  --radius-pill: 24px;
+
+  /* Layout */
+  --page-max-width: 1200px;
+}
+
+/* ---------------------------------------------------------------------------
+   Base
+   --------------------------------------------------------------------------- */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--color-void);
+  color: var(--color-bone);
+  font-family: var(--font-grotesk);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  /* NOTE: never set overflow-x:hidden here — it makes <body> a scroll
+     container and silently breaks every position:sticky pin on the page.
+     Horizontal overflow is instead prevented by max-width:100vw below. */
+  max-width: 100vw;
+}
+
+::selection {
+  background: var(--color-plum);
+  color: var(--color-bone);
+}
+
+/* Display type — the signature: thin weight at extreme size, tight tracking.
+   Space Grotesk floors at 300; we use it where the spec calls for 200. */
+.display {
+  font-weight: 300;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+}
+
+.eyebrow {
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.body-copy {
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+  color: var(--color-ash);
+}
+
+.hairline {
+  border: 1px solid color-mix(in srgb, var(--color-bone) 12%, transparent);
+}
+
+/* Reduced motion: kill smooth scroll + any transition-based motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
