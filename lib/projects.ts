@@ -47,7 +47,10 @@ export const PROJECTS: Project[] = [
     description:
       "A 4-state Gaussian Hidden Markov Model reads return, volatility, volume and momentum to infer the unobserved regime a market is in — then measures the forward edge and runs a walk-forward, out-of-sample backtest. Built India-first for NSE/BSE, rendered through a hand-drawn HTML5 Canvas engine.",
     tech: ["Python", "Gaussian HMM", "FastAPI", "Canvas engine", "GSAP", "yfinance"],
-    links: [{ label: "GitHub", href: `${GITHUB}/regime` }],
+    links: [
+      { label: "Live demo", href: "https://regime-omega.vercel.app" },
+      { label: "GitHub", href: `${GITHUB}/regime` },
+    ],
     accent: "amber",
     formCaption: "A four-state HMM lattice over a candlestick stream",
   },
@@ -59,7 +62,10 @@ export const PROJECTS: Project[] = [
     description:
       "A three-stage LLM pipeline — global understanding, hierarchical concept extraction, topology inference — turns a document into a force-directed concept graph with typed, justified relationships. The renderer is a from-scratch 2D canvas engine with its own force simulation and spatial-hash hit testing. No graph library.",
     tech: ["Next.js 15", "React 19", "FastAPI", "Canvas force sim", "Spatial hash", "SSE", "SQLite"],
-    links: [{ label: "GitHub", href: `${GITHUB}/knowledge-mapper` }],
+    links: [
+      { label: "Live demo", href: "https://knowledge-mapper-six.vercel.app" },
+      { label: "GitHub", href: `${GITHUB}/knowledge-mapper` },
+    ],
     accent: "lichen",
     formCaption: "A force-directed concept graph settling into a galaxy",
   },
@@ -98,7 +104,10 @@ export const PROJECTS: Project[] = [
     description:
       "Pick a mood, tap once, get one thing to watch right now. A weighted scoring engine ranks candidates from TMDB and AniList across genre, keyword, mood, runtime and diversity, then a pluggable LLM writes one honest 'Why now?' sentence. Procedural poster art for artless titles; 302 tests.",
     tech: ["React 19", "TypeScript", "FastAPI", "TMDB + AniList", "Gemini / pluggable LLM"],
-    links: [{ label: "GitHub", href: `${GITHUB}/unbored` }],
+    links: [
+      { label: "Live demo", href: "https://unbored-five.vercel.app" },
+      { label: "GitHub", href: `${GITHUB}/unbored` },
+    ],
     accent: "plum",
     formCaption: "A field of candidates collapsing to a single confident pick",
   },
