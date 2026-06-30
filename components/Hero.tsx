@@ -66,6 +66,7 @@ export default function Hero() {
           position: relative;
           z-index: 2;
           min-height: 100vh;
+          min-height: 100dvh;
           display: flex;
           align-items: center;
         }

@@ -218,12 +218,14 @@ export default function ProjectSection({ project, from }: { project: Project; fr
         .project-outer {
           position: relative;
           height: 250vh;
+          height: 250dvh;
           z-index: 2;
         }
         .project-pin {
           position: sticky;
           top: 0;
           height: 100vh;
+          height: 100dvh;
           display: flex;
           align-items: center;
           perspective: 1400px;
@@ -361,6 +363,7 @@ export default function ProjectSection({ project, from }: { project: Project; fr
         @media (max-width: 820px) {
           .project-outer {
             height: 210vh;
+            height: 210dvh;
           }
           .project-pin {
             align-items: flex-end;
@@ -390,7 +393,9 @@ export default function ProjectSection({ project, from }: { project: Project; fr
             margin-bottom: 18px !important;
           }
           .proj-numeral {
-            font-size: 32vh;
+            /* px-bounded so the ghost numeral never blows out / overflows on
+               short portrait phones (e.g. iPhone SE) where 32vh would dominate */
+            font-size: clamp(120px, 30vh, 220px);
             top: 24%;
             right: 4%;
           }
